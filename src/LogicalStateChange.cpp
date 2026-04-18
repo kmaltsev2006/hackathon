@@ -27,6 +27,7 @@ std::optional<LogicStateChange> parse(const std::string& log_str) {
     return std::nullopt;
 }
 
+<<<<<<< Updated upstream
 std::optional<LogicStateLog> parseLog(const std::string& log_str)
 {
 
@@ -57,4 +58,29 @@ std::optional<LogicStateLog> parseLog(const std::string& log_str)
         return lsl;
     }
     return std::nullopt;
+=======
+std::string format_time(time_t time_stamp) {
+    std::tm* tm = std::localtime(&time_stamp);
+    std::stringstream ss;
+    ss << std::setfill('0')
+       << std::setw(2) << tm->tm_mday << "."
+       << std::setw(2) << (tm->tm_mon + 1) << "."
+       << std::setw(4) << (tm->tm_year + 1900) << " "
+       << tm->tm_hour << ":"
+       << std::setw(2) << tm->tm_min << ":"
+       << std::setw(2) << tm->tm_sec;
+    
+    return ss.str();
+}
+
+std::ostream& operator<<(std::ostream& stream, LogicStateChange logic){
+    stream << (logic.time_stamp) << "," 
+        << logic.logic.name << "," 
+        << logic.logic.id << "," 
+        << "logic.logic.next" << "," 
+        << "logic.last_message" << "," 
+        << "delta time from block";
+        
+    return stream;
+>>>>>>> Stashed changes
 }

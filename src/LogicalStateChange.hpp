@@ -24,7 +24,8 @@ struct LogicStateChange {
     std::time_t time_stamp;
     std::string code_line;
     Logic logic;
-    State state;    
+    State state; 
+    friend std::ostream& operator<<(std::ostream& stream, LogicStateChange logic);   
 };
 
 struct LogicStateLog {
