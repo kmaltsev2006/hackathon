@@ -15,6 +15,11 @@ struct Logic {
     std::string name;
 };
 
+struct Pr {
+    size_t host;
+    size_t port;
+};
+
 struct LogicStateChange {
     std::time_t time_stamp;
     std::string code_line;
@@ -22,4 +27,15 @@ struct LogicStateChange {
     State state;    
 };
 
+struct LogicStateLog {
+    std::time_t time_stamp;
+    std::string code_line;
+    Logic logic;
+    State state;
+    std::string message;
+    Pr pr; 
+};
+
 std::optional<LogicStateChange> parse(const std::string& log_str);
+
+std::optional<LogicStateLog> parseLog(const std::string& log_str);
