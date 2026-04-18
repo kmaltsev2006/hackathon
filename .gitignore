@@ -1,0 +1,9 @@
+venv/
+__pycache__
+.doit.db
+
+build/
+
+conan/
+
+CMakeUserPresets.json
