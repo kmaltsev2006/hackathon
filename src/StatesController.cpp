@@ -4,12 +4,11 @@
 #include <vector>
 #include <sstream>
 
-#include "statescontroller.h"
+#include "StatesController.hpp"
 
 StatesController::StatesController(const std::string& fileName)
     : mIn(fileName)
 {
-    mLogicStateChange = std::make_unique<LogicStateChange>();
 }
 
 StatesController::~StatesController()
@@ -27,18 +26,10 @@ void StatesController::parse()
         while (std::getline(mIn, line))
         {
             std::cout << line << std::endl;
-            const auto resultParse = mLogicStateChange.parse(line);
-            if (mLogicStateChange.parse(line)){
+            auto lsc = ::parse(line);
+            if (lsc.has_value()){
                 
             }
         }
     }
-    mIn.close();
-}
-
-int main()
-{
-    StatesController states("in.txt");
-    states.parse();
-    return 0;
 }
