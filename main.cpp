@@ -40,7 +40,9 @@ int main(int argc, char* argv[]) {
 
     std::cout << "input name: " << input_filename << std::endl << "output name: " << output_filename << std::endl;
     
-    StatesController states(input_filename);
-    states.parse();
+    InputParser inputParser(input_filename);
+    StatesController states(inputParser, output_filename);
+    states.findStatesInvalidation();
+
     return 0;
 }

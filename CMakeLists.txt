@@ -10,6 +10,5 @@ endif ()
 
 add_executable(${PROJECT_NAME}
     main.cpp
-    src/StatesController.cpp
-    src/LogicalStateChange.cpp
+    src/InputParser.cpp  src/LogicStateChange.cpp  src/StatesController.cpp
 )

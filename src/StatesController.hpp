@@ -4,20 +4,30 @@
 #include <fstream>
 #include <string> 
 #include <vector>
-#include <unordered_map>
-#include <memory>
+#include <map>
 
-#include "LogicalStateChange.hpp"
+#include "InputParser.hpp"
+#include "LogicStateChange.hpp"
 
 class StatesController{
 public:
-    StatesController(const std::string& fileName);
+    explicit StatesController(InputParser& inputParser, const std::string& out_name);
     ~StatesController();
-
-    void parse();
+    
+    void findStatesInvalidation();
 
 private:
-    std::unique_ptr<LogicStateChange> mLogicStateChange;
+    InputParser& mInputParser;
+    std::unordered_map<size_t, std::shared_ptr<LogicStateChange>> mLogicStateChangeMap;
+    std::unordered_map<size_t, std::shared_ptr<LogicStateLog>> mLogicStateLogMap;
     std::ifstream mIn;
-    std::unordered_map<int, Logic> mHistoryStates;
+    std::ofstream mOut;
+
+
+private:
+    void updateState(std::shared_ptr<LogicStateChange>& lsc);
+
+    void updateState(std::shared_ptr<LogicStateLog>& lsl);
+    
+    void out();
 };

@@ -24,8 +24,7 @@ struct LogicStateChange {
     std::time_t time_stamp;
     std::string code_line;
     Logic logic;
-    State state; 
-    friend std::ostream& operator<<(std::ostream& stream, LogicStateChange logic);   
+    State state;    
 };
 
 struct LogicStateLog {
@@ -37,6 +36,10 @@ struct LogicStateLog {
     Pr pr; 
 };
 
-std::optional<LogicStateChange> parse(const std::string& log_str);
+std::optional<std::shared_ptr<LogicStateChange>> parseStateChange(const std::string& log_str);
 
-std::optional<LogicStateLog> parseLog(const std::string& log_str);
+std::optional<std::shared_ptr<LogicStateLog>> parseStateLog(const std::string& log_str);
+
+std::string to_string(const LogicStateChange& logicChange, const LogicStateLog& logicLog);
+
+std::string format_time(time_t time_stamp);

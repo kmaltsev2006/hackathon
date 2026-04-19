@@ -1,35 +1,36 @@
-#include <iostream>
-#include <fstream>
-#include <string> 
-#include <vector>
-#include <sstream>
-
 #include "StatesController.hpp"
 
-StatesController::StatesController(const std::string& fileName)
-    : mIn(fileName)
-{
+StatesController::StatesController(InputParser& inputParser, const std::string& out_name)
+    : mInputParser(inputParser)
+    , mOut(out_name)
+{}
+
+StatesController::~StatesController() {
+    mOut.close();
 }
 
-StatesController::~StatesController()
-{
-    mIn.close();
+void StatesController::findStatesInvalidation() {
+    mInputParser.parse(
+        [this](std::shared_ptr<LogicStateChange>& lsc){ updateState(lsc); },
+        [this](std::shared_ptr<LogicStateLog>& lsl){ updateState(lsl); }
+    );
+
+    out();
 }
 
-void StatesController::parse()
-{
-    std::string line;
- 
-    std::stringstream out;
-    if (mIn.is_open())
-    {
-        while (std::getline(mIn, line))
-        {
-            std::cout << line << std::endl;
-            auto lsc = ::parse(line);
-            if (lsc.has_value()){
-                
-            }
+void StatesController::out() {
+    std::cout << "here\n";
+    for (const auto& [id, lsc_ptr] : mLogicStateChangeMap) {
+        if (lsc_ptr->state.name != "NUL") {
+            mOut << to_string(*lsc_ptr, *mLogicStateLogMap[id]);
         }
     }
+}
+
+void StatesController::updateState(std::shared_ptr<LogicStateChange>& lsc) {
+    mLogicStateChangeMap[lsc->logic.id] = lsc;
+}
+
+void StatesController::updateState(std::shared_ptr<LogicStateLog>& lsl) {
+    mLogicStateLogMap[lsl->logic.id] = lsl;
 }
